@@ -1,0 +1,98 @@
+{% import "../common/global.html" as global %}
+{% extends "../common/base.html" %}
+
+{% block head %}
+    {{ macros.docHead(data.name + ' - ' + global.appName) }}
+{% endblock %}
+
+{% block pagecss %}
+    {{ macros.cssLoader(['/pages/chapter/index.css']) }}
+{% endblock %}
+
+{% block header %}
+    {{ macros.pageHeader(data.name) }}
+{% endblock %}
+
+{% block navigator %}
+    {{ macros.pageNavigator() }}
+{% endblock %}
+
+{% block content %}
+    <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8357088632552308"
+     data-ad-slot="6831328972"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+    <div id="content">
+
+        <nav>
+            {%- if data.last -%}
+                <a class="last-btn" href="/chapter?id={{data.last.chapter_id}}">
+                    <div>上一章</div>
+                    <h4>{{data.last.name}}</h4>
+                </a>
+            {%- else -%}
+                <a href="javascript:void(0);"></a>
+            {%- endif -%}
+            {%- if data.next -%}
+                <a class="next-btn" href="/chapter?id={{data.next.chapter_id}}">
+                    <div>下一章</div>
+                    <h4>{{data.next.name}}</h4>
+                </a>
+            {%- else -%}
+                <a href="javascript:void(0);"></a>
+            {%- endif -%}
+        </nav>
+        <h1>{{ data.name }}</h1>
+        {# <h2>
+                <a href="/book?id={{data.book.book_id}}">{{ data.book.name }}</a>
+            </h2>
+            <h3>{{ data.book.category.name }}</h3>
+            <h4>{{ data.book.author }}</h4> #}
+        <article>
+            {% set paragraphs = data
+                .content
+                .split('\n') %}
+            {%- for paragraph in paragraphs -%}
+                <p>{{ paragraph | safe}}</p>
+            {%- endfor -%}
+        </article>
+        <nav>
+            {%- if data.last -%}
+                <a class="last-btn" href="/chapter?id={{data.last.chapter_id}}">
+                    <div>上一章</div>
+                    <h4>{{data.last.name}}</h4>
+                </a>
+            {%- else -%}
+                <a href="javascript:void(0);"></a>
+            {%- endif -%}
+            {%- if data.next -%}
+                <a class="next-btn" href="/chapter?id={{data.next.chapter_id}}">
+                    <div>下一章</div>
+                    <h4>{{data.next.name}}</h4>
+                </a>
+            {%- else -%}
+                <a href="javascript:void(0);"></a>
+            {%- endif -%}
+        </nav>
+    </div>
+    <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8357088632552308"
+     data-ad-slot="9265920621"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+{% endblock %}
+
+{% block footer %}
+    {{ macros.pageFooter() }}
+{% endblock %}
+
+{% block pagejs %}
+    {{ macros.pagejsLoader('/pages/chapter/index.js') }}
+{% endblock %}

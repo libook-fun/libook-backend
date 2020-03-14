@@ -1,0 +1,104 @@
+{% import "../common/global.html" as global %}
+{% extends "../common/base.html" %}
+
+{% block head %}
+  {{ macros.docHead() }}
+{% endblock %}
+
+{% block pagecss %}
+  {{ macros.cssLoader(['/pages/home/index.css']) }}
+{% endblock %}
+
+{% block header %}
+  {{ macros.pageHeader() }}
+{% endblock %}
+
+{% block navigator %}
+  {{ macros.pageNavigator(data.categorys) }}
+{% endblock %}
+
+{% block content %}
+  <div id="content">
+    {%- if data.bannerRecommenders.length -%}
+      <!-- <p>bannerRecommenders</p> -->
+      <div class="banner-recommender swiper-container">
+        <div class="swiper-wrapper">
+          {%- for banner in data.bannerRecommenders %}
+            <a class="swiper-slide" href="/book?id={{ banner.book_id }}" style="background-image:url({{ banner.picture }})">
+              <p>
+                {# <span>{{ banner.name }}</span> #}
+                {{ banner.description }}
+              </p>
+            </a>
+          {% endfor -%}
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+        <!-- 如果需要导航按钮 -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    {%- endif -%}
+    {%- if data.editorRecommenders.length -%}
+      <div class="editor-recommender">
+        <h4>编辑推荐</h4>
+        <ul>
+          {%- for topRecommender in data.editorRecommenders %}
+            <li>
+              <a href="/book?id={{ topRecommender.book_id }}">
+                <img src="{{ topRecommender.picture }}" alt="{{ topRecommender.name }}">
+                <p class="name">{{ topRecommender.name }}</p>
+                <p class="description">{{ topRecommender.description }}</p>
+              </a>
+            </li>
+          {% endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+    {# {%- if data.recommenders.length -%}
+      <p>recommenders</p>
+      <ul>
+        {%- for recommender in data.recommenders %}
+          <li>
+            <a href="/book?id={{ recommender.book_id }}">{{ recommender.name }}</a>
+            <p>{{ recommender.description }}</p>
+          </li>
+        {% endfor -%}
+      </ul>
+    {%- endif -%} #}
+    {%- if data.exhibitions.length -%}
+      <div class="exhibition-recommender">
+        {%- for exhibition in data.exhibitions %}
+          {%- if exhibition.recommenders.length -%}
+            <div class="exhibition">
+              <h4>{{ exhibition.name }}
+                <a href="/exhibition?id={{ exhibition.exhibition_id }}">查看更多</a>
+              </h4>
+              <ul>
+                {%- for recommender in exhibition.recommenders %}
+                  <li>
+                    <a href="/book?id={{ recommender.book_id }}">
+                      <img src="{{ recommender.picture }}" alt="{{ recommender.name }}">
+                      <div class="content">
+                        <p class="name">{{ recommender.name }}</p>
+                        <p class="description">{{ recommender.description }}</p>
+                      </div>
+                    </a>
+                  </li>
+                {% endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+        {% endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {{ macros.pageFooter() }}
+{% endblock %}
+
+{% block pagejs %}
+  {{ macros.pagejsLoader('/pages/home/index.js') }}
+{% endblock %}

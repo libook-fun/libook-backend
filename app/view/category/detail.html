@@ -1,0 +1,33 @@
+{% import "../common/global.html" as global %}
+{% extends "../common/base.html" %}
+
+{% block head %}
+  {{ macros.docHead(data.name + ' - ' + global.appName) }}
+{% endblock %}
+
+{% block header %}
+  {{ macros.pageHeader(data.name) }}
+{% endblock %}
+
+{% block navigator %}
+  {{ macros.pageNavigator() }}
+{% endblock %}
+
+{% block content %}
+  <div id="content">
+    <h1>{{ data.name }}</h1>
+    {%- if data.books.length -%}
+      {%- for book in data.books %}
+        <li>
+          <a href="/book?id={{ book.book_id }}">{{ book.name }}</a>
+        </li>
+      {% endfor -%}
+    {%- else -%}
+      <p>--书籍待更新--</p>
+    {%- endif -%}
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {{ macros.pageFooter() }}
+{% endblock %}

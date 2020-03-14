@@ -1,0 +1,85 @@
+{% import "../common/global.html" as global %}
+{% extends "../common/base.html" %}
+
+{% block head %}
+  {{ macros.docHead(data.name + ' - ' + global.appName) }}
+{% endblock %}
+
+{% block header %}
+  {{ macros.pageHeader(data.name) }}
+{% endblock %}
+
+{% block pagecss %}
+  {{ macros.cssLoader(['/pages/book/index.css']) }}
+{% endblock %}
+
+{% block navigator %}
+  {{ macros.pageNavigator() }}
+{% endblock %}
+
+{% block content %}
+  <div id="content">
+    <div class="top">
+      <img src="{{ data.coverPicture }}" alt="{{ data.name }}">
+      <h1>{{ data.name }}</h1>
+      <div>{{ data.author }} | {{ data.category.name }} | 已完结</div>
+    </div>
+    <nav>
+      <a href="javascript:void(0);">
+        <div>最近更新</div>
+        <h4>{{ data.updated_at.toLocaleDateString() }}</h4>
+      </a>
+      {%- if data.activeChapter -%}
+        <a href="/chapter?id={{ data.activeChapter.chapter_id }}">
+          <div>最新章节</div>
+          <h4>{{ data.activeChapter.name }}</h4>
+        </a>
+      {%- else -%}
+        <a href="javascript:void(0);"></a>
+      {%- endif -%}
+    </nav>
+
+    <div class="description">
+      <h3>作品简介</h3>
+      <p>{{ data.description }}</p>
+    </div>
+    {%- if data.chapters -%}
+      <div class="chapters">
+        <h3>章节列表</h3>
+        <ul>
+          {%- for chapter in data.chapters %}
+            <li>
+              <a href="/chapter?id={{ chapter.chapter_id }}">{{ chapter.name }}</a>
+            </li>
+          {% endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+
+    {%- if data.subbooks -%}
+      <div class="subbooks">
+        <h3>系列丛书</h3>
+        {%- for subbook in data.subbooks %}
+          <ul class="subbook">
+            <li>
+              <a href="/book?id={{ subbook.book_id }}">{{ subbook.name }}</a>
+            </li>
+            {%- for chapter in subbook.chapters %}
+              <li>
+                <a href="/chapter?id={{ chapter.chapter_id }}">{{ chapter.name }}</a>
+              </li>
+            {% endfor -%}
+          </ul>
+        {% endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {{ macros.pageFooter() }}
+{% endblock %}
+
+{% block pagejs %}
+  {{ macros.pagejsLoader('/pages/book/index.js') }}
+{% endblock %}

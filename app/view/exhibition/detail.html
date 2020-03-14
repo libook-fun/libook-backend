@@ -1,0 +1,47 @@
+{% import "../common/global.html" as global %}
+{% extends "../common/base.html" %}
+
+{% block head %}
+  {{ macros.docHead(data.name + ' - ' + global.appName) }}
+{% endblock %}
+
+{% block header %}
+  {{ macros.pageHeader(data.name) }}
+{% endblock %}
+
+{% block pagecss %}
+  {{ macros.cssLoader(['/pages/exhibition/index.css']) }}
+{% endblock %}
+
+{% block navigator %}
+  {{ macros.pageNavigator() }}
+{% endblock %}
+
+{% block content %}
+  <div id="content">
+    {# <h1>{{ data.name }}</h1> #}
+    {%- if data.recommenders.length -%}
+      <ul>
+        {%- for recommender in data.recommenders %}
+          <li>
+            <a href="/book?id={{ recommender.book_id }}">
+              <img src="{{ recommender.picture }}" alt="{{ recommender.name }}">
+              <div class="content">
+                <p class="name">{{ recommender.name }}</p>
+                <p class="description">{{ recommender.description }}</p>
+              </div>
+            </a>
+          </li>
+        {% endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {{ macros.pageFooter() }}
+{% endblock %}
+
+{% block pagejs %}
+  {{ macros.pagejsLoader('/pages/exhibition/index.js') }}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% import "../common/global.html" as global %}
+{% extends "../common/base.html" %}
+
+{% block head %}
+  {{ macros.docHead('帮助' + ' - ' + global.appName) }}
+{% endblock %}
+
+{% block header %}
+  {{ macros.pageHeader('帮助') }}
+{% endblock %}
+
+{% block navigator %}
+  {{ macros.pageNavigator(data.categorys) }}
+{% endblock %}
+
+{% block content %}
+  <div id="content"></div>
+{% endblock %}
+
+{% block footer %}
+  {{ macros.pageFooter() }}
+{% endblock %}

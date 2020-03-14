@@ -1,0 +1,113 @@
+{%- macro docHead(title='梨书', keywords='梨书,小说网,手机小说,最新小说推荐,txt小说下载,免费小说下载网,小说阅读器全本免费小说,小说网站排名,小说在线阅读', description='梨书（libook.fun），梨书提供古言、现言、原创、玄幻、都市、言情、娱乐、种田、科幻、悬疑、穿越、重生、宠文等小说,最新全本免费手机小说阅读推荐,精彩尽在梨书。' ) -%}
+    <title>{{ title }}</title>
+    <meta charset="utf-8">
+    <meta name="description" content="{{description}}"/>
+    <meta name="keywords" content="{{keywords}}"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <link rel="dns-prefetch" href="//www.libook.fun">
+    <style>
+        body {
+            font-size: 14px;
+            margin: 0;
+        }
+    </style>
+    <script>
+        window.desginWidth = 375;
+        window.refresh = 1;
+        !(function (e, t, n) {
+            function r() {
+                let e = s
+                    .getBoundingClientRect()
+                    .width;
+                e > 640 && (e = 640);
+                const t = (100 * e) / desginWidth;
+                (s.style.fontSize = `${t}px`),
+                (a.rem = t);
+                const n = parseFloat(window.getComputedStyle(document.documentElement)['font-size']);
+                if (n !== t && n > 0 && Math.abs(n - t) > 1) {
+                    const r = (t * t) / n;
+                    s.style.fontSize = `${r}px`;
+                }
+            }
+            function i() {
+                clearTimeout(o),
+                (o = setTimeout(r, 100));
+            }
+            let o;
+            var a = {};
+            var s = e.document.documentElement;
+            n && e.addEventListener('resize', () => {
+                i();
+            }, !1),
+            n && e.addEventListener('pageshow', (e) => {
+                e.persisted && i();
+            }, !1),
+            r(),
+            (a.refreshRem = r),
+            (a.rem2px = function (e) {
+                let t = parseFloat(e) * this.rem;
+                return 'string' === typeof e && e.match(/rem$/) && (t += 'px'),
+                t;
+            }),
+            (a.px2rem = function (e) {
+                let t = parseFloat(e) / this.rem;
+                return 'string' === typeof e && e.match(/px$/) && (t += 'rem'),
+                t;
+            }),
+            (e.remCalc = a);
+        })(window, window.desginWidth, window.refresh);
+    </script>
+    <meta name="applicable-device" content="pc,mobile">
+    <meta name="renderer" content="webkit"/>
+{%- endmacro -%}
+
+{%- macro pageHeader(title='') -%}
+    <header id="header">
+        <a class="home" href="/">梨书</a>
+        {%- if title -%}
+            <span class="title">{{title}}</span>{%- endif -%}
+    </header>
+{%- endmacro -%}
+
+{%- macro pageNavigator(List = []) -%}
+    <nav id="navigator">
+        <ul>
+            <li>
+                <a href="/">首页</a>
+            </li>
+            {%- for item in List -%}
+                <li>
+                    <a href="/category?id={{ item.category_id }}">{{item.name}}</a>
+                </li>
+            {%- endfor -%}
+            <li>
+                <a href="/help">帮助</a>
+            </li>
+        </ul>
+    </nav>
+{%- endmacro -%}
+
+{%- macro pageFooter() -%}
+    <footer id="footer">2020 © 所有内容版权归版权方或原作者所有 / All contents are copyrighted by their respective owners or authors.</footer>
+{%- endmacro -%}
+
+{%- macro cssLoader(List=[]) -%}
+    {%- for item in List -%}<link rel="stylesheet" href="{{getFullPath(item)}}"/>{%- endfor -%}
+{%- endmacro -%}
+
+{%- macro jsLoader(List=[]) -%}
+    {%- for item in List -%}
+        <script src="{{getFullPath(item)}}"></script>
+    {%- endfor -%}
+{%- endmacro -%}
+
+{%- macro pagejsLoader(js) -%}
+    <script>
+        require.config({urlArgs: 'v={{ getVersion() }}'});
+        require(["{{ getPath(js) }}"], function (page) {
+            page && page.default && page.default.init && page
+                .default
+                .init();
+        });
+    </script>
+{%- endmacro -%}
