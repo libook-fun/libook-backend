@@ -29,6 +29,7 @@ module.exports = app => {
 
   const chapterRouter = router.namespace('/api/v1/chapter');
   chapterRouter.post('/create', simpleBlock, controller.chapter.create);
+  chapterRouter.get('/grab', simpleBlock, controller.chapter.grab);
   chapterRouter.post('/update', simpleBlock, controller.chapter.update);
   chapterRouter.get('/read', controller.chapter.read);
   chapterRouter.get('/read-all', controller.chapter.readAll);

@@ -29,4 +29,7 @@ module.exports = app => {
     // const used = Date.now() - ctx.starttime;
     // log total cost
   });
+  app.messenger.on('egg-ready', info => {
+    app.info = info
+  });
 };

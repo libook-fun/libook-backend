@@ -9,8 +9,8 @@ class ChapterController extends Controller {
     const { ctx } = this;
     const { service } = ctx;
     const formData = await ctx.helper.formData(ctx, ['file']);
-    const { book_id, name, file } = formData;
-    if (!name || !book_id || !file) {
+    const { book_id, name, file, content } = formData;
+    if (!name || !book_id) {
       file && (await fse.remove(file));
       ctx.helper.responeseJSON(ctx, {
         code: 4000,
@@ -27,21 +27,32 @@ class ChapterController extends Controller {
       });
       return;
     }
+    if (!file && !content) {
+      ctx.helper.responeseJSON(ctx, {
+        code: 4000,
+        message: '参数错误'
+      });
+      return;
+    }
     try {
       const chapter_id = await service.chapter.create({
         book_id,
         name
       });
-      if (chapter_id && file) {
+      if (chapter_id) {
         const basePath = this.config.static.dir;
         const chapterFilename = ctx.helper.getChapter(
           basePath,
           book_id,
           chapter_id
         );
-        await fse.move(file, chapterFilename, {
-          overwrite: true
-        });
+        if (file) {
+          await fse.move(file, chapterFilename, {
+            overwrite: true
+          });
+        } else if (content) {
+          await fse.outputFile(chapterFilename, content);
+        }
       }
       ctx.helper.responeseJSON(ctx, {
         data: {
@@ -61,7 +72,7 @@ class ChapterController extends Controller {
     const { ctx } = this;
     const { service } = ctx;
     const formData = await ctx.helper.formData(ctx, ['file']);
-    const { chapter_id, book_id, name, file } = formData;
+    const { chapter_id, book_id, name, file, content } = formData;
     if (!chapter_id) {
       file && (await fse.remove(file));
       ctx.helper.responeseJSON(ctx, {
@@ -83,16 +94,20 @@ class ChapterController extends Controller {
     chapter.name = name ? name : chapter.name;
     try {
       chapter = await service.chapter.update(chapter);
-      if (chapter && file) {
+      if (chapter) {
         const basePath = this.config.static.dir;
         const chapterFilename = ctx.helper.getChapter(
           basePath,
           chapter.book_id,
           chapter.chapter_id
         );
-        await fse.move(file, chapterFilename, {
-          overwrite: true
-        });
+        if (file) {
+          await fse.move(file, chapterFilename, {
+            overwrite: true
+          });
+        } else if (content) {
+          await fse.outputFile(chapterFilename, content);
+        }
       }
       ctx.helper.responeseJSON(ctx, {
         data: {
@@ -104,6 +119,41 @@ class ChapterController extends Controller {
       ctx.helper.responeseJSON(ctx, {
         code: 4000,
         message: error.message
+      });
+    }
+  }
+
+  async grab() {
+    const { ctx, config } = this;
+    const { url, query } = ctx.query;
+    if (!url || !query) {
+      ctx.helper.responeseJSON(ctx, {
+        code: 4000,
+        message: '参数错误'
+      });
+      return;
+    }
+    const result = await ctx.curl(`${config.libookGo}/spiderman/chapter`, {
+      data: ctx.query,
+      dataAsQueryString: true,
+      dataType: 'json',
+      timeout: 10000
+    });
+    // console.log(result);
+    if (
+      result.data &&
+      result.data.code == 200 &&
+      result.data.data &&
+      result.data.data.name &&
+      result.data.data.content
+    ) {
+      ctx.helper.responeseJSON(ctx, {
+        data: result.data.data
+      });
+    } else {
+      ctx.helper.responeseJSON(ctx, {
+        code: 4000,
+        message: '发生错误'
       });
     }
   }
@@ -157,7 +207,7 @@ class ChapterController extends Controller {
     const data = await service.chapter.readThree({ chapter_id: id });
     const result = await ctx.curl(
       ctx.helper.getChapter(
-        'http://127.0.0.1:7001/public/',
+        ctx.helper.serverAddress(ctx, '/public'),
         data.book_id,
         data.chapter_id
       ),

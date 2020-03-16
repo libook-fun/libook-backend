@@ -180,5 +180,9 @@ module.exports = {
     }
     // console.log(data);
     return data;
+  },
+  serverAddress: function(ctx, path) {
+    const port = ctx.app.info.port || ctx.app.config.cluster.listen.port;
+    return '//127.0.0.1:' + port + path;
   }
 };

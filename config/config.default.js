@@ -21,7 +21,9 @@ module.exports = appInfo => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1570058849158_6441';
 
-  config.publicPath = (process.env.PUBLIC_BACKEND_PATH || '/public').replace(/\/$/,'');
+  config.publicPath = (process.env.PUBLIC_BACKEND_PATH || 'http://localhost:7010/public').replace(/\/$/,'');
+
+  config.libookGo = (process.env.LIBOOK_GO_PATH || 'http://localhost:7777').replace(/\/$/,'');
 
   config.frontend = {
     publicPath: (process.env.PUBLIC_PATH || '').replace(/\/$/, ''),

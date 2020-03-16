@@ -12,7 +12,9 @@ module.exports = appInfo => {
    **/
   const config = (exports = {});
 
-  config.publicPath = '/public';
+  config.publicPath = 'http://localhost:7010/public';
+
+  config.libookGo = 'http://localhost:7777';
 
   config.frontend = {
     publicPath: '//cdn.libook.fun:8080/libook-static',
