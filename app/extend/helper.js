@@ -3,7 +3,6 @@
 const fs = require('fs');
 const path = require('path');
 const moment = require('moment');
-const uuidv1 = require('uuid/v1');
 const pump = require('mz-modules/pump');
 const sendToWormhole = require('stream-wormhole');
 
@@ -119,7 +118,11 @@ module.exports = {
     )}${recommender_id}.png`;
   },
   uuid() {
-    return uuidv1();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = (Math.random() * 16) | 0,
+        v = c == 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
   },
   getPagination(ctx) {
     const { query = {} } = ctx;
@@ -181,7 +184,7 @@ module.exports = {
     // console.log(data);
     return data;
   },
-  serverAddress: function(ctx, path) {
+  serverAddress: function (ctx, path) {
     const port = ctx.app.info.port || ctx.app.config.cluster.listen.port;
     return '//127.0.0.1:' + port + path;
   }

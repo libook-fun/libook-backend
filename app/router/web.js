@@ -54,6 +54,10 @@ module.exports = app => {
   recommenderRouter.get('/read-all', controller.recommender.readAll);
   recommenderRouter.post('/delete', simpleBlock, controller.recommender.delete);
 
+  const passportController = router.namespace('/api/v1/passport');
+  passportController.post('/login', controller.passport.login);
+  passportController.post('/register', controller.passport.register);
+
   // const weixinRouter = router.namespace('/api/v1/wx');
   // weixinRouter.get('/login', controller.weixin.login);
 
@@ -63,6 +67,8 @@ module.exports = app => {
   router.get('/chapter', controller.chapter.index);
   router.get('/help', controller.help.index);
   router.get('/', controller.home.index);
+
+  // app.passport.mount('github');
 
   router.get('/cms', simpleBlock, controller.cms.index);
   router.get('/cms/*', simpleBlock, controller.cms.index);

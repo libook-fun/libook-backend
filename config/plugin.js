@@ -8,22 +8,38 @@ module.exports = {
   // }
   routerPlus: {
     enable: true,
-    package: 'egg-router-plus',
+    package: 'egg-router-plus'
   },
   nunjucks: {
     enable: true,
-    package: 'egg-view-nunjucks',
+    package: 'egg-view-nunjucks'
   },
   assets: {
     enable: false,
-    package: 'egg-view-assets',
+    package: 'egg-view-assets'
   },
   mysql: {
     enable: true,
-    package: 'egg-mysql',
+    package: 'egg-mysql'
   },
   redis: {
     enable: true,
-    package: 'egg-redis',
+    package: 'egg-redis'
   },
+  jwt: {
+    enable: true,
+    package: 'egg-jwt'
+  },
+  passport: {
+    enable: true,
+    package: 'egg-passport'
+  },
+  passportGithub: {
+    enable: true,
+    package: 'egg-passport-github'
+  },
+  io: {
+    enable: true,
+    package: 'egg-socket.io'
+  }
 };

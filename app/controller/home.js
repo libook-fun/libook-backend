@@ -4,7 +4,6 @@ const Controller = require('egg').Controller;
 class HomeController extends Controller {
   async index() {
     const { ctx, config } = this;
-    // console.log(ctx.request.url)
     const { service } = ctx;
     const data = {};
     data.categorys = await service.category.readAll();

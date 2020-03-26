@@ -12,6 +12,8 @@ module.exports = appInfo => {
    **/
   const config = (exports = {});
 
+  config.proxy = false;
+
   config.publicPath = 'http://localhost:7010/public';
 
   config.libookGo = 'http://localhost:7777';

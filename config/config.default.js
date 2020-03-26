@@ -12,6 +12,8 @@ module.exports = appInfo => {
    **/
   const config = (exports = {});
 
+  config.proxy = true;
+
   config.name = 'libook';
   // 微信配置
   config.weixin = {
@@ -21,9 +23,13 @@ module.exports = appInfo => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1570058849158_6441';
 
-  config.publicPath = (process.env.PUBLIC_BACKEND_PATH || 'http://localhost:7010/public').replace(/\/$/,'');
+  config.publicPath = (
+    process.env.PUBLIC_BACKEND_PATH || 'http://localhost:7010/public'
+  ).replace(/\/$/, '');
 
-  config.libookGo = (process.env.LIBOOK_GO_PATH || 'http://localhost:7777').replace(/\/$/,'');
+  config.libookGo = (
+    process.env.LIBOOK_GO_PATH || 'http://localhost:7777'
+  ).replace(/\/$/, '');
 
   config.frontend = {
     publicPath: (process.env.PUBLIC_PATH || '').replace(/\/$/, ''),
@@ -69,6 +75,27 @@ module.exports = appInfo => {
         password: process.env.REDIS_PASSWORD || 'libook',
         db: 0,
         weakDependent: true
+      }
+    },
+    jwt: {
+      secret: 'libook'
+    },
+    passportGithub: {
+      key: '6041c554aed442365c2f',
+      secret: '19b29aeb8d1b74e35d4197d131c5ad949eaee0ef'
+    },
+    io: {
+      namespace: {
+        '/': {
+          connectionMiddleware: [],
+          packetMiddleware: []
+        }
+      },
+      namespace: {
+        '/chat': {
+          connectionMiddleware: [],
+          packetMiddleware: []
+        }
       }
     }
   };
